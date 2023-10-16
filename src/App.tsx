@@ -1,4 +1,5 @@
+import { Button } from "@radix-ui/themes";
 const App = () => {
-  return <div>App</div>;
+  return <Button>Hello world!</Button>;
 };
 export default App;
