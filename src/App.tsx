@@ -1,6 +1,6 @@
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import { AppSection } from "./components/Main";
+import { AppSection } from "./components/AppSection";
 import { Toaster } from "./components/ui/toaster";
 const App = () => {
   return (
