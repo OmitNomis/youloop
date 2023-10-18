@@ -1,34 +1,34 @@
-import { FC, useRef } from "react";
+import { FC } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
 
 interface LoopingPlayerProps {
   url: string;
-  startTime: number;
-  endTime: number;
   isPlaying: boolean;
+  setIsPlaying: (isPlaying: boolean) => void;
+  playerRef?: React.RefObject<ReactPlayer>;
+  handleProgress: (props: OnProgressProps) => void;
+  handlePlayerReady: () => void;
 }
 
 export const LoopingPlayer: FC<LoopingPlayerProps> = ({
   url,
   isPlaying,
-  startTime,
-  endTime,
+  setIsPlaying,
+  playerRef,
+  handleProgress,
+  handlePlayerReady,
 }) => {
-  const playerRef = useRef<ReactPlayer>(null);
-  const handleProgress = (progress: OnProgressProps) => {
-    if (progress.playedSeconds >= endTime) {
-      playerRef.current?.seekTo(startTime);
-    }
-  };
-
   if (url) {
     return (
       <ReactPlayer
         ref={playerRef}
         url={url}
         playing={isPlaying}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
         loop={true}
+        onReady={handlePlayerReady}
         controls={true}
         onProgress={handleProgress}
       />

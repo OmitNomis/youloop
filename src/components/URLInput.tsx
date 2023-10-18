@@ -33,8 +33,8 @@ export const URLInput = ({
   return (
     <form className="flex gap-2" onSubmit={handleSearch}>
       <Input placeholder="Enter URL" ref={inputRef} />
-      <Button type="submit">
-        <Search />
+      <Button type="submit" size={"icon"}>
+        <Search size={18} />
       </Button>
     </form>
   );
