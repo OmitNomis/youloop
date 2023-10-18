@@ -41,7 +41,7 @@ export const LoopingPlayer: FC<LoopingPlayerProps> = ({
   }
 
   return (
-    <div className="w-[80%] max-w-[90%] h-[360px] border flex justify-center items-center rounded-lg">
+    <div className="w-[90%] sm:w-[80%] h-[360px] border flex justify-center items-center rounded-lg">
       <div>Video URL unavailable</div>
     </div>
   );
