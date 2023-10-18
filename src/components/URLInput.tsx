@@ -4,6 +4,12 @@ import { Search } from "lucide-react";
 import { useRef } from "react";
 import { validateYoutubeUrl } from "@/helpers/validateYoutubeUrl";
 import { useToast } from "./ui/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@radix-ui/react-tooltip";
 
 export const URLInput = ({
   setSearch,
@@ -32,10 +38,19 @@ export const URLInput = ({
 
   return (
     <form className="flex gap-2" onSubmit={handleSearch}>
-      <Input placeholder="Enter URL" ref={inputRef} />
-      <Button type="submit" size={"icon"}>
-        <Search size={18} />
-      </Button>
+      <TooltipProvider>
+        <Input placeholder="Enter URL" ref={inputRef} />
+        <Tooltip>
+          <TooltipTrigger>
+            <Button type="submit" size={"icon"}>
+              <Search size={18} />
+            </Button>
+            <TooltipContent>
+              <span>Search</span>
+            </TooltipContent>
+          </TooltipTrigger>
+        </Tooltip>
+      </TooltipProvider>
     </form>
   );
 };
