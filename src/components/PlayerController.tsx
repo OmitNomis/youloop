@@ -5,6 +5,12 @@ import { Pause, Play, Share, TimerReset } from "lucide-react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { toast } from "./ui/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@radix-ui/react-tooltip";
 
 type TimeRange = {
   startTime: number;
@@ -56,8 +62,12 @@ export const PlayerController: FC<ControllerProps> = ({
     <MaxWidthComponent className="flex flex-col items-center">
       <div className="w-full my-10 relative">
         <div className="w-full flex justify-between">
-          <div>{formatTime(startTime)}</div>
-          <div>{formatTime(endTime)}</div>
+          <div>
+            <span>{formatTime(startTime)}</span>
+          </div>
+          <div>
+            <span>{formatTime(endTime)}</span>
+          </div>
         </div>
         <Slider
           range
@@ -82,18 +92,44 @@ export const PlayerController: FC<ControllerProps> = ({
         />
       </div>
       <div className="flex gap-10">
-        <Button size={"icon"} variant={"ghost"} onClick={resetPlayer}>
-          <TimerReset />
-        </Button>
-        <Button
-          size={"icon"}
-          variant={"ghost"}
-          onClick={handlePlayPauseClicked}>
-          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-        </Button>
-        <Button size={"icon"} variant={"ghost"} onClick={handleShareClicked}>
-          <Share size={18} />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button size={"icon"} variant={"ghost"} onClick={resetPlayer}>
+                <TimerReset />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Reset Timer</span>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button
+                size={"icon"}
+                variant={"ghost"}
+                onClick={handlePlayPauseClicked}>
+                {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>{isPlaying ? "Pause" : "Play"}</span>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button
+                size={"icon"}
+                variant={"ghost"}
+                onClick={handleShareClicked}>
+                <Share size={18} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Share</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </MaxWidthComponent>
   );
