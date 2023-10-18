@@ -46,9 +46,19 @@ export const PlayerController: FC<ControllerProps> = ({
     });
   };
 
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  };
+
   return (
     <MaxWidthComponent className="flex flex-col items-center">
       <div className="w-full my-10 relative">
+        <div className="w-full flex justify-between">
+          <div>{formatTime(startTime)}</div>
+          <div>{formatTime(endTime)}</div>
+        </div>
         <Slider
           range
           min={0}
