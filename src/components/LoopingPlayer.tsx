@@ -9,6 +9,7 @@ interface LoopingPlayerProps {
   playerRef?: React.RefObject<ReactPlayer>;
   handleProgress: (props: OnProgressProps) => void;
   handlePlayerReady: () => void;
+  playBackRate?: number;
 }
 
 export const LoopingPlayer: FC<LoopingPlayerProps> = ({
@@ -18,6 +19,7 @@ export const LoopingPlayer: FC<LoopingPlayerProps> = ({
   playerRef,
   handleProgress,
   handlePlayerReady,
+  playBackRate,
 }) => {
   if (url) {
     return (
@@ -31,6 +33,7 @@ export const LoopingPlayer: FC<LoopingPlayerProps> = ({
         onReady={handlePlayerReady}
         controls={true}
         onProgress={handleProgress}
+        playbackRate={playBackRate}
       />
     );
   }
