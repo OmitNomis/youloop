@@ -23,18 +23,20 @@ export const LoopingPlayer: FC<LoopingPlayerProps> = ({
 }) => {
   if (url) {
     return (
-      <ReactPlayer
-        ref={playerRef}
-        url={url}
-        playing={isPlaying}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        loop={true}
-        onReady={handlePlayerReady}
-        controls={true}
-        onProgress={handleProgress}
-        playbackRate={playBackRate}
-      />
+      <div className="flex justify-center w-full">
+        <ReactPlayer
+          ref={playerRef}
+          url={url}
+          playing={isPlaying}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          loop={true}
+          onReady={handlePlayerReady}
+          controls={true}
+          onProgress={handleProgress}
+          playbackRate={playBackRate}
+        />
+      </div>
     );
   }
 

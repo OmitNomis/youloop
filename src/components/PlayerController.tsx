@@ -23,8 +23,19 @@ interface ControllerProps {
   isPlaying: boolean;
   handlePlayPauseClicked: () => void;
   resetPlayer: () => void;
+  setSpeed: (speed: number) => void;
   maxDuration: number;
 }
+const speedValues = [
+  { value: 0.25, label: "0.25x" },
+  { value: 0.5, label: "0.50x" },
+  { value: 1, label: "1.00x" },
+  { value: 1.25, label: "1.25x" },
+  { value: 1.5, label: "1.50x" },
+  { value: 2, label: "2.00x" },
+  { value: 3, label: "3.00x" },
+  { value: 4, label: "4.00x" },
+];
 
 export const PlayerController: FC<ControllerProps> = ({
   timeRange,
@@ -33,6 +44,7 @@ export const PlayerController: FC<ControllerProps> = ({
   resetPlayer,
   maxDuration,
   handlePlayPauseClicked,
+  setSpeed,
 }) => {
   let { startTime, endTime } = timeRange;
 
@@ -91,45 +103,64 @@ export const PlayerController: FC<ControllerProps> = ({
           }}
         />
       </div>
-      <div className="flex gap-10">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button size={"icon"} variant={"ghost"} onClick={resetPlayer}>
-                <TimerReset />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Reset Timer</span>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                size={"icon"}
-                variant={"ghost"}
-                onClick={handlePlayPauseClicked}>
-                {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>{isPlaying ? "Pause" : "Play"}</span>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                size={"icon"}
-                variant={"ghost"}
-                onClick={handleShareClicked}>
-                <Share size={18} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Share</span>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+      <div className="flex items-center w-full flex-wrap">
+        <div className="flex-1 hidden sm:flex"></div>
+        <div className="flex-grow flex items-center justify-start sm:justify-center gap-5 sm:gap-10 ">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size={"icon"} variant={"ghost"} onClick={resetPlayer}>
+                  <TimerReset />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Reset Timer</span>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  size={"icon"}
+                  variant={"ghost"}
+                  onClick={handlePlayPauseClicked}>
+                  {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>{isPlaying ? "Pause" : "Play"}</span>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  size={"icon"}
+                  variant={"ghost"}
+                  onClick={handleShareClicked}>
+                  <Share size={18} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Share</span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        <div className="flex-1 flex justify-end">
+          <select
+            onChange={(e) => {
+              setSpeed(Number(e.target.value));
+            }}
+            defaultValue={1}
+            className="bg-inherit text-inherit p-2 rounded-lg">
+            {speedValues.map((speed) => {
+              return (
+                <option key={speed.value} value={speed.value}>
+                  {speed.label}
+                </option>
+              );
+            })}
+          </select>
+        </div>
       </div>
     </MaxWidthComponent>
   );

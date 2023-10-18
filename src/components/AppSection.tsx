@@ -15,6 +15,7 @@ export const AppSection = () => {
     startTime: 0,
     endTime: 1,
   });
+  const [speed, setSpeed] = useState(1);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -99,6 +100,7 @@ export const AppSection = () => {
           setIsPlaying={setIsPlayerPlaying}
           handleProgress={handleProgress}
           handlePlayerReady={handlePlayerReady}
+          playBackRate={speed}
         />
         <PlayerController
           timeRange={timeRange}
@@ -107,6 +109,7 @@ export const AppSection = () => {
           handlePlayPauseClicked={handlePlayPauseClicked}
           resetPlayer={resetPlayer}
           maxDuration={playerRef.current?.getDuration() || 1}
+          setSpeed={setSpeed}
         />
       </PlayerWrapper>
     </MaxWidthComponent>
