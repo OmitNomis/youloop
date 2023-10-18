@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Pause, Play, Share, TimerReset } from "lucide-react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { toast } from "./ui/use-toast";
 
 type TimeRange = {
   startTime: number;
@@ -14,7 +15,7 @@ interface ControllerProps {
   timeRange: TimeRange;
   setTimeRange: (timeRange: TimeRange) => void;
   isPlaying: boolean;
-  setIsPlaying: (isPlaying: boolean) => void;
+  handlePlayPauseClicked: () => void;
   resetPlayer: () => void;
   maxDuration: number;
 }
@@ -23,13 +24,10 @@ export const PlayerController: FC<ControllerProps> = ({
   timeRange,
   setTimeRange,
   isPlaying,
-  setIsPlaying,
   resetPlayer,
   maxDuration,
+  handlePlayPauseClicked,
 }) => {
-  const handlePlayPauseClicked = () => {
-    setIsPlaying(!isPlaying);
-  };
   let { startTime, endTime } = timeRange;
 
   const handleSliderChange = (values: number | number[]) => {
@@ -38,6 +36,13 @@ export const PlayerController: FC<ControllerProps> = ({
     setTimeRange({
       startTime: newStartTime,
       endTime: newEndTime,
+    });
+  };
+  const handleShareClicked = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast({
+      title: "Copied to Clipboard!",
+      duration: 3000,
     });
   };
 
@@ -76,7 +81,7 @@ export const PlayerController: FC<ControllerProps> = ({
           onClick={handlePlayPauseClicked}>
           {isPlaying ? <Pause size={20} /> : <Play size={20} />}
         </Button>
-        <Button size={"icon"} variant={"ghost"}>
+        <Button size={"icon"} variant={"ghost"} onClick={handleShareClicked}>
           <Share size={18} />
         </Button>
       </div>

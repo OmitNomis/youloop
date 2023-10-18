@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { PlayerController } from "./PlayerController";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
+import { toast } from "./ui/use-toast";
 
 export const AppSection = () => {
   const [search, setSearch] = useState("");
@@ -45,6 +46,10 @@ export const AppSection = () => {
   const playerRef = useRef<ReactPlayer>(null);
 
   const handlePlayerReady = () => {
+    toast({
+      title: "Video Uploaded!",
+      duration: 3000,
+    });
     setTimeRange({
       startTime: 0,
       endTime: playerRef.current?.getDuration() || 1,
@@ -63,6 +68,9 @@ export const AppSection = () => {
       startTime: 0,
       endTime: playerRef.current?.getDuration() || 1,
     });
+    toast({
+      title: "Timer reset!",
+    });
   };
 
   const handleProgress = (progress: OnProgressProps) => {
@@ -73,6 +81,11 @@ export const AppSection = () => {
     if (progress.playedSeconds <= startTime) {
       playerRef.current?.seekTo(startTime);
     }
+  };
+
+  const handlePlayPauseClicked = () => {
+    if (!playerRef.current) return;
+    setIsPlayerPlaying(!isPlayerPlaying);
   };
 
   return (
@@ -91,7 +104,7 @@ export const AppSection = () => {
           timeRange={timeRange}
           setTimeRange={setTimeRange}
           isPlaying={isPlayerPlaying}
-          setIsPlaying={setIsPlayerPlaying}
+          handlePlayPauseClicked={handlePlayPauseClicked}
           resetPlayer={resetPlayer}
           maxDuration={playerRef.current?.getDuration() || 1}
         />
