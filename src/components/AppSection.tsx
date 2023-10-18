@@ -2,7 +2,7 @@ import { LoopingPlayer } from "./LoopingPlayer";
 import { PlayerWrapper } from "./PlayerWrapper";
 import { URLInput } from "./URLInput";
 import { MaxWidthComponent } from "./ui/MaxWidthComponent";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { PlayerController } from "./PlayerController";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
@@ -12,16 +12,42 @@ export const AppSection = () => {
   const [isPlayerPlaying, setIsPlayerPlaying] = useState(false);
   const [timeRange, setTimeRange] = useState({
     startTime: 0,
-    endTime: 0,
+    endTime: 1,
   });
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTimeParam = urlParams.get("startTime");
+    const endTimeParam = urlParams.get("endTime");
+    const searchParam = urlParams.get("url");
+    if (startTimeParam && endTimeParam && searchParam) {
+      setTimeRange({
+        startTime: Number(startTimeParam),
+        endTime: Number(endTimeParam),
+      });
+      setSearch(searchParam);
+    }
+  }, []);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const { startTime, endTime } = timeRange;
+    urlParams.set("url", search || "");
+    urlParams.set("startTime", startTime.toString());
+    urlParams.set("endTime", endTime.toString());
+    window.history.replaceState(
+      null,
+      "",
+      `${window.location.pathname}?${urlParams.toString()}`
+    );
+  }, [timeRange, search]);
+
   const playerRef = useRef<ReactPlayer>(null);
 
   const handlePlayerReady = () => {
-    setTimeRange((prev) => {
-      return {
-        ...prev,
-        endTime: playerRef.current?.getDuration() || 0,
-      };
+    setTimeRange({
+      startTime: 0,
+      endTime: playerRef.current?.getDuration() || 1,
     });
     setIsPlayerPlaying(true);
   };
@@ -33,11 +59,9 @@ export const AppSection = () => {
   const resetPlayer = () => {
     playerRef.current?.seekTo(0);
     setIsPlayerPlaying(false);
-    setTimeRange((prev) => {
-      return {
-        ...prev,
-        endTime: playerRef.current?.getDuration() || 0,
-      };
+    setTimeRange({
+      startTime: 0,
+      endTime: playerRef.current?.getDuration() || 1,
     });
   };
 
@@ -69,6 +93,7 @@ export const AppSection = () => {
           isPlaying={isPlayerPlaying}
           setIsPlaying={setIsPlayerPlaying}
           resetPlayer={resetPlayer}
+          maxDuration={playerRef.current?.getDuration() || 1}
         />
       </PlayerWrapper>
     </MaxWidthComponent>
