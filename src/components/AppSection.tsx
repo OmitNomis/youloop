@@ -47,15 +47,17 @@ export const AppSection = () => {
   const playerRef = useRef<ReactPlayer>(null);
 
   const handlePlayerReady = () => {
+    if (timeRange.endTime !== 1) {
+      setTimeRange({
+        ...timeRange,
+        endTime: playerRef.current?.getDuration() || 1,
+      });
+    }
+    setIsPlayerPlaying(true);
     toast({
       title: "Video Uploaded!",
       duration: 3000,
     });
-    setTimeRange({
-      startTime: 0,
-      endTime: playerRef.current?.getDuration() || 1,
-    });
-    setIsPlayerPlaying(true);
   };
 
   const handleURLEntered = (url: string) => {

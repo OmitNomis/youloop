@@ -94,10 +94,10 @@ export const PlayerController: FC<ControllerProps> = ({
               backgroundColor: "rgb(242, 107, 17)",
             },
             rail: {
-              backgroundColor: "rgb(148, 148, 148)",
+              backgroundColor: "#E85A0C",
             },
             handle: {
-              backgroundColor: "rgb(242, 107, 17)",
+              backgroundColor: "#E85A0C",
               border: "none",
             },
           }}
