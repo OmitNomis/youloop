@@ -47,7 +47,7 @@ export const AppSection = () => {
   const playerRef = useRef<ReactPlayer>(null);
 
   const handlePlayerReady = () => {
-    if (timeRange.endTime !== 1) {
+    if (timeRange.endTime === 1) {
       setTimeRange({
         ...timeRange,
         endTime: playerRef.current?.getDuration() || 1,
