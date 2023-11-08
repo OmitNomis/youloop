@@ -72,8 +72,8 @@ export const PlayerController: FC<ControllerProps> = ({
 
   return (
     <MaxWidthComponent className="flex flex-col items-center">
-      <div className="w-full my-10 relative">
-        <div className="w-full flex justify-between">
+      <div className="relative w-full my-10">
+        <div className="flex justify-between w-full">
           <div>
             <span>{formatTime(startTime)}</span>
           </div>
@@ -91,21 +91,21 @@ export const PlayerController: FC<ControllerProps> = ({
           step={0.1}
           styles={{
             track: {
-              backgroundColor: "rgb(242, 107, 17)",
+              backgroundColor: "hsl(346.8 77.2% 49.8%)",
             },
             rail: {
-              backgroundColor: "#E85A0C",
+              backgroundColor: "gray",
             },
             handle: {
-              backgroundColor: "#E85A0C",
+              backgroundColor: "hsl(346.8 77.2% 49.8%)",
               border: "none",
             },
           }}
         />
       </div>
-      <div className="flex items-center w-full flex-wrap">
+      <div className="flex flex-wrap items-center w-full">
         <div className="flex-1 hidden sm:flex"></div>
-        <div className="flex-grow flex items-center justify-start sm:justify-center gap-5 sm:gap-10 ">
+        <div className="flex items-center justify-start flex-grow gap-5 sm:justify-center sm:gap-10 ">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -145,13 +145,13 @@ export const PlayerController: FC<ControllerProps> = ({
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="flex-1 flex justify-end">
+        <div className="flex justify-end flex-1">
           <select
             onChange={(e) => {
               setSpeed(Number(e.target.value));
             }}
             defaultValue={1}
-            className="bg-inherit text-inherit p-2 rounded-lg">
+            className="p-2 rounded-lg bg-inherit text-inherit">
             {speedValues.map((speed) => {
               return (
                 <option key={speed.value} value={speed.value}>
